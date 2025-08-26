@@ -1,0 +1,25 @@
+# --- Virtual environments ---
+using_gym/gym_venv/
+using_gymnasium/gymnasium_venv/
+venv/
+env/
+.venv/
+
+# --- Python cache & bytecode ---
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+.Python
+
+# --- Jupyter Notebook checkpoints ---
+.ipynb_checkpoints/
+
+# --- Logs & temporary files ---
+*.log
+*.tmp
+*.swp
+
+# --- OS-specific files ---
+.DS_Store
+Thumbs.db

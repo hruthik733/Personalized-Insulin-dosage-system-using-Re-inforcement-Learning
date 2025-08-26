@@ -1,0 +1,81 @@
+# # Project-wide settings
+# project:
+#   seed: 42
+#   device: "cpu" # Set to cpu for local training
+
+# # Environment settings
+# environment:
+#   num_collection_steps: 50000
+#   patient_cohort: ['adult#001', 'adult#002', 'adult#003']
+#   env_id: "simglucose/adult-v0"
+#   max_episode_steps: 288
+
+# # World Model training settings
+# world_model:
+#   model_type: "lstm"
+#   state_dim: 12
+#   action_dim: 1
+#   hidden_size: 128
+#   num_layers: 2
+#   learning_rate: 0.001
+#   batch_size: 512
+#   num_epochs: 50
+#   model_path: "./models/world_model.pth"
+
+# # ! FIX: Added the missing ppo_agent section
+# ppo_agent:
+#   state_dim: 12
+#   action_dim: 1
+#   n_latent_var: 256
+#   max_action: 5.0
+#   lr: 0.0003
+#   gamma: 0.99
+#   K_epochs: 80
+#   eps_clip: 0.2
+#   model_path: "./models/hybrid_agent.pth" # Define the save path here
+
+# # Training settings
+# training:
+#   total_timesteps: 100000 # Reduced for a quicker test run
+#   update_timestep: 4096
+#   batch_size: 512
+#   prediction_loss_weight: 0.5
+
+
+
+
+
+
+
+# Project-wide settings
+project:
+  seed: 42
+  device: "cpu"
+
+# Environment settings
+environment:
+  patient_cohort: ['adult#001', 'adult#002', 'adult#003']
+  env_id: "simglucose/adult-v0"
+  max_episode_steps: 288
+
+# Hybrid Agent Architecture and Parameters
+agent:
+  state_dim: 12
+  action_dim: 1
+  max_action: 5.0
+  # Network architecture sizes
+  feature_extractor_size: 256
+  actor_critic_hidden_size: 256
+  prediction_hidden_size: 256
+  # Save path for the trained model
+  model_path: "./models/hybrid_agent.pth"
+
+# Training settings
+training:
+  lr: 0.0003
+  gamma: 0.99
+  total_timesteps: 10000
+  update_timestep: 4096
+  batch_size: 512
+  # The lambda weight for the composite loss
+  prediction_loss_weight: 0.5
