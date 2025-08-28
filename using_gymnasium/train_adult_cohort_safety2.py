@@ -12,7 +12,9 @@ import pandas as pd
 # checking on it
 
 # --- Local Imports ---
-from agents.sac_agent import SACAgent
+# from agents.sac_agent import SACAgent
+from agents.sac_agent_mdn import SACAgent
+
 from utils.replay_buffer import ReplayBuffer
 from utils.state_management2 import StateRewardManager
 from utils.safety2 import SafetyLayer
@@ -38,6 +40,9 @@ def main():
     replay_buffer_size = 1000000
     max_timesteps_per_episode = 288
     learning_starts = 1000
+
+    device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
+    print(f"Using device: {device}")
 
     # Define the cohort of patients for training
     adult_patients = [f'adult#{i:03d}' for i in range(1, 11)]
@@ -73,8 +78,27 @@ def main():
     # Initialize agent and buffer only ONCE
     # We create a dummy env just to get action_dim
     temp_env = gymnasium.make(env_id)
-    agent = SACAgent(temp_env, state_dim, action_dim, n_latent_var, lr, gamma_val, tau, alpha)
+    
+    # agent = SACAgent(temp_env, state_dim, action_dim, n_latent_var, lr, gamma_val, tau, alpha)
+    agent = SACAgent(temp_env, state_dim, action_dim, n_latent_var, lr, gamma_val, tau, alpha, device=device)
+
     temp_env.close()
+
+
+    # vvv PLACE THE SUMMARY CODE HERE vvv
+    from torchsummary import summary
+    print("\n" + "="*50)
+    print("--- Actor Network Architecture ---")
+    # The actor takes the state as input
+    summary(agent.actor, (state_dim,))
+    
+    print("\n" + "="*50)
+    print("--- Critic Network Architecture ---")
+    # The critic takes the state and action concatenated as input
+    summary(agent.critic_1, input_size=[(state_dim,), (action_dim,)])
+    print("="*50 + "\n")
+    # ^^^ END OF SUMMARY CODE ^^^
+    
     
     manager = StateRewardManager(state_dim)
     safety_layer = SafetyLayer()
