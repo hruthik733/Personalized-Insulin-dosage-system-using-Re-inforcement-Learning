@@ -30,7 +30,7 @@ def main():
 
     # Hyperparameters
     # max_episodes = 2000
-    max_episodes = 100
+    max_episodes = 500
     lr = 3e-4
     gamma_val = 0.99
     tau = 0.005
