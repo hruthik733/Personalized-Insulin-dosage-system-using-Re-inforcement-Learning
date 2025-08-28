@@ -175,7 +175,8 @@ def main():
     
     all_patient_results = []
     # Load the single trained agent
-    eval_agent = SACAgent(env, state_dim, action_dim, n_latent_var, lr, gamma_val, tau, alpha)
+    # eval_agent = SACAgent(env, state_dim, action_dim, n_latent_var, lr, gamma_val, tau, alpha)
+    eval_agent = SACAgent(env, state_dim, action_dim, n_latent_var, lr, gamma_val, tau, alpha, device)
     eval_agent.actor.load_state_dict(torch.load(actor_path))
     eval_agent.actor.eval() # Set to evaluation mode
 
